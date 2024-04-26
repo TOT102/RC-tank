@@ -8,10 +8,9 @@ int n;
 
 SBUS sbus(Serial);
 
-CytronMD motor1(PWM_PWM, 3, 4);  // PWM 1 = Pin 3 1 M1A, DIR 1 = Pin 5 1 M1B.
-CytronMD motor2(PWM_PWM, 5, 6); // PWM 2 = Pin 4 1 M2A, DIR 2 = Pin 6 1 M2B.
-CytronMD motor3(PWM_PWM, 7, 8); // PWM 2 = Pin 4 2 M2A, DIR 2 = Pin 6 2 M2B.
-CytronMD motor4(PWM_PWM, 9, 10);// PWM 2 = Pin 4 2 M2A, DIR 2 = Pin 6 2 M2B.
+CytronMD motor1(PWM_PWM, 4, 5);  // PWM 1 = Pin 3 1 M1A, DIR 1 = Pin 5 1 M1B.
+CytronMD motor2(PWM_PWM, 6, 7); // PWM 2 = Pin 4 1 M2A, DIR 2 = Pin 6 1 M2B.
+
  
 void setup() {
   // put your setup code here, to run once:
@@ -19,8 +18,6 @@ void setup() {
   
   motor1.setSpeed(0);
   motor2.setSpeed(0);  
-  motor3.setSpeed(0);
-  motor4.setSpeed(0);
 }
 ISR(TIMER2_COMPA_vect)
 {
@@ -63,37 +60,25 @@ void loop() {
   if (sbus.getChannel(4) > 1200){
     motor1.setSpeed(255);
     motor2.setSpeed(255);  
-    motor3.setSpeed(255);
-    motor4.setSpeed(255);
   }
   else {
     motor1.setSpeed(0);
     motor2.setSpeed(0);  
-    motor3.setSpeed(0);
-    motor4.setSpeed(0);
   }
   if (sbus.getChannel(3) > 1200){
     motor1.setSpeed(0);
     motor2.setSpeed(0);  
-    motor3.setSpeed(255);
-    motor4.setSpeed(255); 
   }
   else {
     motor1.setSpeed(0);
     motor2.setSpeed(0);  
-    motor3.setSpeed(0);
-    motor4.setSpeed(0);
   }
   if (sbus.getChannel(3) < 500){
     motor1.setSpeed(255);
-    motor2.setSpeed(255);  
-    motor3.setSpeed(-255);
-    motor4.setSpeed(-255); 
+    motor2.setSpeed(-255);  
   }
   else {
     motor1.setSpeed(0);
     motor2.setSpeed(0);  
-    motor3.setSpeed(0);
-    motor4.setSpeed(0);
   }
 }
