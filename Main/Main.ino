@@ -15,7 +15,7 @@ CytronMD motor2(PWM_PWM, 6, 7); // PWM 2 = Pin 4 1 M2A, DIR 2 = Pin 6 1 M2B.
 void setup() {
   // put your setup code here, to run once:
   sbus.begin();
-  
+  Serial.begin(9600);
   motor1.setSpeed(0);
   motor2.setSpeed(0);  
 }
@@ -57,6 +57,9 @@ void readChanels(){
 void loop() {
   // put your main code here, to run repeatedly:
   readChanels();
+  Serial.println(sbus.getChannel(4));
+  Serial.println(sbus.getChannel(3));
+
   if (sbus.getChannel(4) > 1200){
     motor1.setSpeed(255);
     motor2.setSpeed(255);  
