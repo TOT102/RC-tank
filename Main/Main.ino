@@ -1,20 +1,22 @@
 // Integration of PWM erceiver support
 #include "config.h"
 #include <limits.h>
-#include "CytronMotorDriver.h"
+#include <CytronMotorDriver.h>
 #include <PWMreceiver.h>
+#include <Servo.h>
 
 int pinNumbers[] = { A0, A1, A2, A3 };
 size_t numPins = sizeof(pinNumbers) / sizeof(pinNumbers[0]);
 
+Servo servo;
 PWMReceiver receiver(pinNumbers, numPins);
-CytronMD motor1(PWM_PWM, M1A, M1B);  // PWM 1 = Pin 3 M1A, DIR 1 = Pin 5 M1B.
-CytronMD motor2(PWM_PWM, M2A, M2B);  // PWM 2 = Pin 4 1 M2A, DIR 2 = Pin 6 1 M2B.
+CytronMD motor1(PWM_PWM, M1A, M1B);  
+CytronMD motor2(PWM_PWM, M2A, M2B);  
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
 
+  servo.attach(SERVO_PIN);
   motor1.setSpeed(0);
   motor2.setSpeed(0);
 }
@@ -22,6 +24,8 @@ void setup() {
 void loop() {
   // polling:
   receiver.readData();
+
+  servo.write(receiver.getChannel(0));
 
   if (receiver.getChannel(1) > 60) {
     //forward
